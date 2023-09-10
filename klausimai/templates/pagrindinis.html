@@ -1,1 +1,36 @@
-<h2>Pagrindinis</h2>
+{% if user.is_authenticated %}
+    <h2>Sveiki, {{ user.username }}!</h2>
+    <a href="{% url 'logout' %}">Atsijungti</a>
+
+    <h3>Užduoti klausimą</h3>
+    <form method="post">
+        {% csrf_token %}
+        <textarea name="tekstas" placeholder="Įveskite klausimą"></textarea>
+        <button type="submit">Klausti</button>
+    </form>
+
+    <h3>Neatsakyti klausimai</h3>
+    <ul>
+        {% for klausimas in neatsakyti %}
+            <li>
+                {{ klausimas.tekstas }}
+                <!-- Čia galima pridėti atsakymo formą ar nuorodą į atsakymo puslapį -->
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h3>Atsakyti klausimai</h3>
+    <ul>
+        {% for klausimas in atsakyti %}
+            <li>
+                {{ klausimas.tekstas }} - Atsakymas: {{ klausimas.atsakymas }}
+            </li>
+        {% endfor %}
+    </ul>
+
+{% else %}
+    <h2>Prisijungti:</h2>
+    <a href="{% url 'login' %}">Prisijungti</a>
+    <h2>Užsiregistruoti:</h2>
+    <a href="{% url 'register' %}">Užsiregistruoti</a>
+{% endif %}
