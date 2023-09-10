@@ -16,8 +16,17 @@ def registracija(request):
 
 def pagrindinis(request):
     if request.method == 'POST':
-        tekstas = request.POST.get('tekstas')
-        Klausimas.objects.create(tekstas=tekstas, uzduotas_vartotojas=request.user)
+        klausimas_id = request.POST.get('klausimas_id')
+
+        if klausimas_id:
+            klausimas = get_object_or_404(Klausimas, id=klausimas_id)
+            klausimas.atsakymas = request.POST.get('atsakymas')
+            klausimas.atsake_vartotojas = request.user
+            klausimas.save()
+        else:
+            tekstas = request.POST.get('tekstas')
+            Klausimas.objects.create(tekstas=tekstas, uzduotas_vartotojas=request.user)
+
         return redirect('pagrindinis')
 
     neatsakyti = Klausimas.objects.filter(atsakymas__isnull=True)
