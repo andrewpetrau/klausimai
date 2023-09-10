@@ -23,4 +23,5 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/register/', views.registracija, name='register'),
     path('', views.pagrindinis, name='pagrindinis'),
+    path('atsakyti/<int:klausimo_id>/', views.atsakyti, name='atsakyti'),
 ]

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import RegistracijosForma
 from .models import Klausimas
 # Create your views here.
@@ -27,3 +27,16 @@ def pagrindinis(request):
         'neatsakyti': neatsakyti,
         'atsakyti': atsakyti
     })
+
+
+def atsakyti(request, klausimo_id):
+    klausimas = get_object_or_404(Klausimas, id=klausimo_id)
+
+    if request.method == "POST":
+        atsakymas = request.POST.get('atsakymas')
+        klausimas.atsakymas = atsakymas
+        klausimas.atsake_vartotojas = request.user
+        klausimas.save()
+        return redirect('pagrindinis')
+
+    return render(request, 'atsakyti.html', {'klausimas': klausimas})

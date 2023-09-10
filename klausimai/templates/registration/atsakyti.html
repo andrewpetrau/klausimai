@@ -1,0 +1,8 @@
+<form method="post">
+    {% csrf_token %}
+    Klausimas: {{ klausimas.tekstas }} (Kas klausia: {{ klausimas.uzduotas_vartotojas }})
+    <br>
+    Atsakymas:
+    <textarea name="atsakymas"></textarea>
+    <button type="submit">Atsakyti</button>
+</form>
